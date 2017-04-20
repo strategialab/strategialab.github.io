@@ -1,0 +1,12 @@
+.jumbotron {
+	background-color: #546e7a;
+	color: #FFF;
+}
+
+.container {
+	max-width: 1100px;
+}
+
+#code-result {
+	height: 200px;
+}
