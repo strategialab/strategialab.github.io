@@ -103,7 +103,7 @@ $(document).ready(function() {
 				'no-offer': $('#msg-no-offer').val()
 			}
 		};
-		var code = 'var wfs_config = ' + JSON.stringify(wfs_config);
+		var code = 'var wfs_config = ' + JSON.stringify(wfs_config) + ';';
 
 		code += '\n(function(d, s, id){\n' +
 			'var js, fjs = d.getElementsByTagName(s)[0];\n' +
