@@ -8,6 +8,8 @@
 
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
 	<link rel="stylesheet" type="text/css" href="css/bootstrap-colorpicker.min.css">
+	<link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="css/sweetalert.css">
 	<link rel="stylesheet" type="text/css" href="css/main.css">
 </head>
 <body>
@@ -22,17 +24,20 @@
 	<div class="container">
 
 	<p class="lead">Olá <b id="store-name"></b>!</p>
-	<p>Falta pouco pra você começar a aumentar as vendas da sua loja com a nossa barra de frete grátis!<br>Siga atentamente os passos abaixo para fazer uma configuração correta:</p>
+	<p>Falta pouco pra você começar a usar a barra de frete grátis em sua loja!<br>Siga atentamente os passos abaixo para configurar corretamente a sua barra:</p>
 
 	<ul class="nav nav-tabs" id="myTab" role="tablist">
 		<li class="nav-item">
 			<a class="nav-link active" data-toggle="tab" href="#download" role="tab">1. Download</a>
 		</li>
 		<li class="nav-item">
-			<a class="nav-link" data-toggle="tab" href="#config" role="tab" id="link-personalize">2. Personalização</a>
+			<a class="nav-link" data-toggle="tab" href="#config" role="tab">2. Configuração</a>
 		</li>
 		<li class="nav-item">
-			<a class="nav-link disabled" data-toggle="tab" href="#install" role="tab" id="link-install">3. Instalação</a>
+			<a class="nav-link" data-toggle="tab" href="#personalization" role="tab" id="link-personalize">3. Personalização</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" data-toggle="tab" href="#install" role="tab" id="link-install">4. Instalação</a>
 		</li>
 	</ul>
 
@@ -48,48 +53,139 @@
 		</div>
 
 		<div class="tab-pane" id="config" role="tabpanel">
-			<form id="form-conf">
 
-			<h3>Regiões</h3>
-			<p class="lead">Informe abaixo os <a href="https://app.lojaintegrada.com.br/painel/marketing/frete_gratis/editar" target="_blank">mesmos valores</a> que você configurou no painel da Loja Integrada</p>
+			<p>Informe abaixo os <a href="https://app.lojaintegrada.com.br/painel/marketing/frete_gratis/editar" target="_blank">mesmos valores</a> que você configurou no painel da Loja Integrada</p>
 
+			<hr>
+
+			<form id="form-config-regions">
+			<div id="container-regions">
 			<div class="row">
-				<div class="col-md-2 form-group">
-					<label>Sul</label>
-					<div class="input-group">
-						<span class="input-group-addon">R$</span>
-						<input class="form-control money" type="text" id="region-sul" required autofocus>
-					</div>
+				<div class="col-md-3">
+					<b>Região</b>
 				</div>
-				<div class="col-md-2 form-group">
-					<label>Sudeste</label>
-					<div class="input-group">
-						<span class="input-group-addon">R$</span>
-						<input class="form-control money" type="text" id="region-sudeste" required>
-					</div>
+				<div class="col-md-3">
+					<b>Valor mínimo do pedido</b>
 				</div>
-				<div class="col-md-2 form-group">
-					<label>Norte</label>
-					<div class="input-group">
-						<span class="input-group-addon">R$</span>
-						<input class="form-control money" type="text" id="region-norte" required>
-					</div>
-				</div>
-				<div class="col-md-2 form-group">
-					<label>Nordeste</label>
-					<div class="input-group">
-						<span class="input-group-addon">R$</span>
-						<input class="form-control money" type="text" id="region-nordeste" required>
-					</div>
-				</div>
-				<div class="col-md-2 form-group">
-					<label>Centro Oeste</label>
-					<div class="input-group">
-						<span class="input-group-addon">R$</span>
-						<input class="form-control money" type="text" id="region-centro-oeste" required>
-					</div>
+				<div class="col-md-5">
+					<b>Faixa de CEP</b>
 				</div>
 			</div>
+
+			<hr>
+
+			<div class="row tr">
+				<div class="col-md-3">
+					Sul
+					<input type="hidden" value="Sul" name="region_set-0-name">
+				</div>
+				<div class="col-md-3">
+					<div class="input-group">
+						<span class="input-group-addon">R$</span>
+						<input class="form-control money" type="text" name="region_set-0-value" autofocus>
+					</div>
+				</div>
+				<div class="col-md-5">
+				</div>
+			</div>
+
+			<hr>
+
+			<div class="row tr">
+				<div class="col-md-3">
+					Sudeste
+					<input type="hidden" value="Sudeste" name="region_set-1-name" class="form-control">
+				</div>
+				<div class="col-md-3">
+					<div class="input-group">
+						<span class="input-group-addon">R$</span>
+						<input class="form-control money" type="text" name="region_set-1-value" autofocus>
+					</div>
+				</div>
+				<div class="col-md-5">
+				</div>
+			</div>
+
+			<hr>
+
+			<div class="row tr">
+				<div class="col-md-3">
+					Centro Oeste
+					<input type="hidden" value="Centro Oeste" name="region_set-2-name">
+				</div>
+				<div class="col-md-3">
+					<div class="input-group">
+						<span class="input-group-addon">R$</span>
+						<input class="form-control money" type="text" name="region_set-2-value" autofocus>
+					</div>
+				</div>
+				<div class="col-md-5">
+				</div>
+			</div>
+
+			<hr>
+
+			<div class="row tr">
+				<div class="col-md-3">
+					Nordeste
+					<input type="hidden" value="Nordeste" name="region_set-3-name">
+				</div>
+				<div class="col-md-3">
+					<div class="input-group">
+						<span class="input-group-addon">R$</span>
+						<input class="form-control money" type="text" name="region_set-3-value" autofocus>
+					</div>
+				</div>
+				<div class="col-md-5">
+				</div>
+			</div>
+
+			<hr>
+
+			<div class="row tr">
+				<div class="col-md-3">
+					Norte
+					<input type="hidden" value="Norte" name="region_set-4-name">
+				</div>
+				<div class="col-md-3">
+					<div class="input-group">
+						<span class="input-group-addon">R$</span>
+						<input class="form-control money" type="text" name="region_set-4-value" autofocus>
+					</div>
+				</div>
+				<div class="col-md-5">
+				</div>
+			</div>
+
+			<hr>
+
+			</div> <!-- end container-regions -->
+
+			<div class="row">
+				<div class="col-md-12">
+					<button type="button" id="btn-add-region" class="btn btn-secondary btn-block">Nova Região</button>
+				</div>
+			</div>
+
+			<hr>
+
+			<button type="submit" class="btn btn-primary btn-lg">Salvar alterações</button>
+
+			</form>
+
+		</div>
+
+		<div class="tab-pane" id="personalization" role="tabpanel">
+
+			<div id="previews">
+				<div id="preview_initial" style="margin-bottom:10px;padding:15px;text-align:center;">Quer saber se você tem direito a frete grátis? Informe seu CEP!</div>
+				<div id="preview_in_progress" style="margin-bottom:10px;padding:15px;text-align:center;"><span class="preview_message_progress_p1">Faltam</span> <span class="preview_message_progress_goal">R$ 100,00</span> <span class="preview_message_progress_p2">pra você ganhar frete grátis!</span></div>
+				<div id="preview_goal_achieved" style="padding:15px;text-align:center;">Parabéns! Você ganhou frete grátis!</div>
+			</div>
+
+			<hr>
+
+			<form id="form-conf">
 
 			<h3>Mensagens</h3>
 			<p class="lead"></p>
@@ -171,16 +267,9 @@
 				</div>
 			</div>
 
-			<h4>Preview</h4>
-			<div id="previews">
-				<div id="preview_initial" style="margin-bottom:10px;padding:15px;text-align:center;">Quer saber se você tem direito a frete grátis? Informe seu CEP!</div>
-				<div id="preview_in_progress" style="margin-bottom:10px;padding:15px;text-align:center;"><span class="preview_message_progress_p1">Faltam</span> <span class="preview_message_progress_goal">R$ 100,00</span> <span class="preview_message_progress_p2">pra você ganhar frete grátis!</span></div>
-				<div id="preview_goal_achieved" style="padding:15px;text-align:center;">Parabéns! Você ganhou frete grátis!</div>
-			</div>
-
 			<hr>
 
-			<button class="btn btn-primary btn-lg" type="submit">Salvar alterações e seguir para a instalação</button>
+			<button class="btn btn-primary btn-lg" type="submit">Salvar alterações</button>
 
 			</form>
 
@@ -208,17 +297,15 @@
 						<li><b>Local publicação:</b> Rodapé</li>
 						<li><b>Página publicação:</b> Página do carrinho</li>
 						<li><b>Tipo:</b> Javascript</li>
-						<li><b>Conteúdo:</b> *** copie e cole o código abaixo ***</li>
+						<li><b>Conteúdo:</b> <a href="#" id="btn-modal-gen-code">clique aqui para copiar o código</a></li>
 					</ul>
 				</li>
 				<li>Clique no botão "Salvar código HTML"</li>
 			</ol>
 
-			<div id="code-container" class="card card-block bg-faded"></div>
+<!-- 			<hr>
 
-			<hr>
-
-			<button class="btn btn-primary" id="btn-copy-code">Copiar código</button>
+			<button class="btn btn-primary" id="btn-copy-code">Copiar código</button> -->
 
 		</div> <!-- end tab install -->
 
@@ -226,14 +313,72 @@
 
 	</div> <!-- end container -->
 
+<!-- Modal -->
+<div class="modal fade" id="modal-gen-code" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Código HTML</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      	<div id="code-container" class="card card-block bg-faded"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="btn-copy-code" data-clipboard-target="#code-container" data-title="Copiado!">Copiar e fechar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 	<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+
+	<script type="text/javascript" src="js/tether.min.js"></script>
 
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
 
 	<script type="text/javascript" src="js/bootstrap-colorpicker.min.js"></script>
 	<script type="text/javascript" src="js/jquery.mask.min.js"></script>
+	<script type="text/javascript" src="js/sweetalert.min.js"></script>
+	<script type="text/javascript" src="js/clipboard.min.js"></script>
 
 	<script type="text/javascript" src="js/main.js"></script>
+
+	<script type="text/html" id="template-custom-region">
+		<div class="row tr" id="region-__prefix__">
+			<div class="col-md-3">
+				<input type="text" name="region_set-__prefix__-name" class="form-control" required>
+			</div>
+			<div class="col-md-3">
+				<div class="input-group">
+					<span class="input-group-addon">R$</span>
+					<input class="form-control money" type="text" name="region_set-__prefix__-value" autofocus required>
+				</div>
+			</div>
+			<div class="col-md-5">
+				<div class="row">
+					<div class="col-md-5">
+						<input type="text" class="form-control cep" name="region_set-__prefix__-cep-start" required>
+					</div>
+					<div class="col-md-2" style="text-align:center;">
+						até
+					</div>
+					<div class="col-md-5">
+						<input type="text" class="form-control cep" name="region_set-__prefix__-cep-end" required>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-1">
+				<a class="btn-delete-region">
+					<span class="fa fa-times" aria-hidden="true" style="color:#B51515;"></span>
+				</a>
+			</div>
+		</div>
+
+		<hr>
+	</script>
 
 </body>
 </html>

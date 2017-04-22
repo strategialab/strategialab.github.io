@@ -14,3 +14,12 @@
 #code-result {
 	height: 200px;
 }
+
+.tr  {
+	/*border-bottom: 1px solid #CCC;*/
+	/*padding: 15px 0 15px 0;*/
+}
+
+.btn-delete-region {
+	cursor: pointer;
+}
