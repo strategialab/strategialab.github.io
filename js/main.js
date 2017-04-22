@@ -86,7 +86,7 @@ $(document).ready(function() {
 	$('#btn-download').on('click', function(){
 		var iframe = document.getElementById('invisible');
 		iframe.src = scriptUrl;
-		$('#link-personalize').tab('show');
+		$('#link-config').tab('show');
 	});
 
 	$('#form-conf').submit(function(e){
