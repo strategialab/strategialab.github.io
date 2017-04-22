@@ -167,8 +167,8 @@ $(document).ready(function() {
 				'text-align': $('#style-text-align').val()
 			},
 			'messages': {
-				'goal_in_progress': $('#msg-in-progress-1').val() + ' __MISSING__ ' + $('#msg-in-progress-2').val(),
-				'goal_completed': $('#msg-goal-achieved').val(),
+				'goal-in-progress': $('#msg-in-progress-1').val() + ' __MISSING__ ' + $('#msg-in-progress-2').val(),
+				'goal-achieved': $('#msg-goal-achieved').val(),
 				'no-cep': $('#msg-no-cep').val(),
 				'no-offer': $('#msg-no-offer').val()
 			}
