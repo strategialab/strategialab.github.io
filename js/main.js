@@ -1,58 +1,115 @@
 $(document).ready(function() {
 
+	var defaults = {
+		'regions': [],
+		'styles': {
+			'background-color': '#5875a3',
+			'completed-background-color': '#74cf5c',
+			'color': '#ffffff',
+			'special-color': '#fff400',
+			'font-size': '20px',
+			'margin-bottom': '20px',
+			'padding': '15px',
+			'text-align': 'center'
+		},
+		'messages': {
+			'goal-in-progress': 'Ainda faltam __MISSING__ em compras pra você GANHAR FRETE GRÁTIS !!!',
+			'goal-achieved': 'Parabéns! Você ganhou FRETE GRÁTIS!!!',
+			'no-cep': 'Não quer pagar frete? Informe o seu CEP para saber quanto falta!',
+			'no-offer': 'Não há opção de frete grátis para sua região.'
+		}
+	};
+
+	var regions = [];
 	var token = Base64.decode(getParam('t'));
 	var arrToken = token.split('|');
 	var storeName = arrToken[0];
 	var scriptUrl = arrToken[1];
 	var liScriptUrl = arrToken[2];
-	var regions = [];
-
-	var clipboard = new Clipboard('#btn-copy-code');
-	clipboard.on('success', function(e) {
-		$('#modal-gen-code').modal('hide');
-	});
+	var storeDomain = arrToken[3];
+	// var storeDomain = 'www.h2opurificadores.com.br';
 
 	$('#store-name').html(storeName);
 
-	$('.money').mask("#.##0.00", {reverse: true});
-	$('.cep').mask("00000-000");
-	$('.colorpicker-component').colorpicker();
+	getInstalledConfig(onLoadedConfig);
 
-	// Initial
-	var messageInitial = $('#msg-no-cep').val();
-	var messageProgressP1 = $('#msg-in-progress-1').val();
-	var messageProgressP2 = $('#msg-in-progress-2').val();
-	var messageGoalAchieved = $('#msg-goal-achieved').val();
-	var backgroundColor = $('#style-bg-color').val();
-	var backgroundColorSpecial = $('#style-bg-color-special').val();
-	var textColor = $('#style-text-color').val();
-	var specialTextColor = $('#style-text-color-special').val();
-	var fontSize = $('#style-font-size').val() + 'px';
+	function onLoadedConfig (config) {
+		if(config){
+			swal('Modo de atualização', "Identificamos que a barra já foi instalada em sua loja; portanto, carregamos as configurações atuais para que você possa atualizá-las, se desejar.", "info");
+			setDefaults(config);
+			$('#link-download').addClass('disabled');
+			$('#link-download').removeClass('active');
+			$('#download').removeClass('active');
+			$('#link-config').addClass('active');
+			$('#config').addClass('active');
+		} else {
+			setDefaults(defaults);
+		}
 
-	$('#preview_initial').html(messageInitial);
-	$('#preview_in_progress .preview_message_progress_p1').html(messageProgressP1);
-	$('#preview_in_progress .preview_message_progress_p2').html(messageProgressP2);
-	$('#preview_goal_achieved').html(messageGoalAchieved);
+		$('#loading').css('display', 'none');
+		$('.container').css('display', 'block');
 
-	$('#previews div').css('background-color', backgroundColor);
-	$('#preview_goal_achieved').css('background-color', backgroundColorSpecial);
+		$('.money').mask("#.##0.00", {reverse: true});
+		$('.cep').mask("00000-000");
+		$('.colorpicker-component').colorpicker();
 
-	$('#previews div').css('color', textColor);
-	$('#previews div .preview_message_progress_goal').css('color', specialTextColor);
-	$('#previews div').css('font-size', fontSize);
+		var clipboard = new Clipboard('#btn-copy-code');
+		clipboard.on('success', function(e) {
+			$('#modal-gen-code').modal('hide');
+		});
+	}
+
+	// var wfs_config = {
+	// 	"status": "online",
+	// 	"regions": [
+	// 		["Sul",1050.00],
+	// 		["Sudeste",299],
+	// 		["Centro Oeste",449.9],
+	// 		["São Paulo - Barueri",149,[["06400001","06499999"]]],
+	// 		["São Paulo - Capital 1",149,[["01000000","05999999"]]],
+	// 		["São Paulo - Capital 2",149,[["08000000","08499999"]]],
+	// 		["São Paulo - Diadema",149,[["09900001","09999999"]]],
+	// 		["São Paulo - Estado",199,[["01000000","19999999"]]],
+	// 		["São Paulo - Guarulhos",149,[["07000001","07399999"]]],
+	// 		["São Paulo - Osasco",149,[["06000001","06299999"]]],
+	// 		["São Paulo - Santana de Parnaíba",149,[["06500001","06549999"]]],
+	// 		["São Paulo - Santo André ",149,[["09000001","09299999"]]],
+	// 		["São Paulo - São Bernado",149,[["09600001","09899999"]]],
+	// 		["São Paulo - São Caetano do Sul",149,[["09500001","09599999"]]]
+	// 	],
+	// 	"styles":{
+	// 		"background-color":"#e05e2a",
+	// 		"completed-background-color":"#228bcc",
+	// 		"color":"#ffffff",
+	// 		"special-color":"#110deb",
+	// 		"font-size":"20px",
+	// 		"margin-bottom":"20px",
+	// 		"padding":"15px",
+	// 		"text-align":"center"
+	// 	},
+	// 	"messages":{
+	// 		"goal-in-progress":"Ainda faltam __MISSING__ em compras pra você GANHAR FRETE GRÁTIS !!!",
+	// 		"goal-achieved":"Parabéns! Você ganhou FRETE GRÁTIS!!!",
+	// 		"no-cep":"Não quer pagar frete? Informe o seu CEP para saber quanto falta!",
+	// 		"no-offer":"Não há opção de frete grátis para sua região."}
+	// 	};
 
 	// Messages
 
-	$('#msg-in-progress-1').on('keyup', function(e){
+	$('#msg-goal-in-progress-1').on('keyup', function(e){
 		$('#preview_in_progress .preview_message_progress_p1').html($(this).val());
 	});
 
-	$('#msg-in-progress-2').on('keyup', function(e){
+	$('#msg-goal-in-progress-2').on('keyup', function(e){
 		$('#preview_in_progress .preview_message_progress_p2').html($(this).val());
 	});
 
 	$('#msg-goal-achieved').on('keyup', function(e){
 		$('#preview_goal_achieved').html($(this).val());
+	});
+
+	$('#msg-no-cep').on('keyup', function(e){
+		$('#preview_initial').html($(this).val());
 	});
 
 	// Appearance
@@ -76,62 +133,73 @@ $(document).ready(function() {
 		$('#preview_in_progress .preview_message_progress_goal').css('color', $(this).val());
 	});
 
-	$('#style-font-size').on('change', function(e){
-		var size = $(this).val() + 'px';
-		$('#preview_initial').css('font-size', size);
-		$('#preview_in_progress').css('font-size', size);
-		$('#preview_goal_achieved').css('font-size', size);
-	});
+	// $('#style-font-size').on('change', function(e){
+	// 	var size = $(this).val() + 'px';
+	// 	$('#preview_initial').css('font-size', size);
+	// 	$('#preview_in_progress').css('font-size', size);
+	// 	$('#preview_goal_achieved').css('font-size', size);
+	// });
 
-	$('#btn-download').on('click', function(){
+	// $('#style-text-align').on('change', function(e){
+	// 	$('#preview_initial').css('text-align', $(this).val());
+	// 	$('#preview_in_progress').css('text-align', $(this).val());
+	// 	$('#preview_goal_achieved').css('text-align', $(this).val());
+	// });
+
+	// $('#style-padding').on('change', function(e){
+	// 	$('#preview_initial').css('padding', $(this).val());
+	// 	$('#preview_in_progress').css('padding', $(this).val());
+	// 	$('#preview_goal_achieved').css('padding', $(this).val());
+	// });
+
+	$('#btn-download').on('click', function() {
 		var iframe = document.getElementById('invisible');
 		iframe.src = scriptUrl;
 		$('#link-config').tab('show');
 	});
 
-	$('#form-conf').submit(function(e){
+	$('#form-conf').submit(function(e) {
 		e.preventDefault();
-		updateCodeResult();
-		$('#link-install').removeClass('disabled');
 		$('#link-install').tab('show');
 	});
 
-	$('#btn-add-region').click(function(){
-		var template = $('#template-custom-region');
-		var container = $('#container-regions');
-		var count = container.children('.tr').length;
-
-		var item = template.html().replace(/__prefix__/g, count);
-
-		container.append(item);
+	$('#btn-add-region').click(function() {
+		addRegion();
 		scrollPageToBottom();
 	});
 
-	$('#form-config-regions').submit(function(e){
+	$('#form-config-regions').submit(function(e) {
 		e.preventDefault();
 
 		var tmpRegions = [];
-		$('.tr', this).each(function(index, value){
+		var nulls = [];
+		$('.tr', this).each(function(index, value) {
 			var active = $('input[name="region_set-'+index+'-active"]').is(':checked');
 			var name = $('input[name="region_set-'+index+'-name"]').val();
-			var value = parseFloat($('input[name="region_set-'+index+'-value"]').val());
+			var value = $('input[name="region_set-'+index+'-value"]').val();
 			var cepStart = $('input[name="region_set-'+index+'-cep-start"]');
 			var cepEnd = $('input[name="region_set-'+index+'-cep-end"]');
 
-			if(!value){
-				return;
+			if(value){
+				value = parseFloat(value);
+			} else {
+				value = null;
 			}
 
 			var region = [name, value];
-			if(cepStart.val() && cepEnd.val()){
+			if(cepStart.val() && cepEnd.val()) {
 				var cepRange = [[cepStart.cleanVal(), cepEnd.cleanVal()]];
 				region.push(cepRange);
+			}
+
+			if(value == null) {
+				nulls.push(index);
 			}
 
 			tmpRegions.push(region);
 		});
 
-		if(tmpRegions.length == 0){
+		if(tmpRegions.length == nulls.length) {
 			swal("", "Você deve configurar pelo menos uma região", "error");
 		} else {
 			regions = tmpRegions;
@@ -139,11 +207,11 @@ $(document).ready(function() {
 		}
 	});
 
-	$('body').delegate('.btn-delete-region', 'click', function(e){
+	$('body').delegate('.btn-delete-region', 'click', function(e) {
 		$(this).closest('.tr').remove();
 	});
 
-	$('#btn-modal-gen-code').click(function(e){
+	$('.btn-modal-gen-code').click(function(e) {
 		if(regions.length == 0){
 			swal("", "Você deve configurar pelo menos uma região antes de gerar o código", "error");
 		} else {
@@ -151,6 +219,101 @@ $(document).ready(function() {
 			$('#modal-gen-code').modal();
 		}
 	});
+
+	function getInstalledConfig (callback) {
+		$.ajax({
+			url: 'https://' + storeDomain + '/carrinho/index'
+		})
+		.done(function(data) {
+			var patt = /var wfs_config = (.*);/
+			var result = patt.exec(data);
+			var config = JSON.parse(result[1]);
+			callback(config);
+		})
+		.error(function(error){
+			callback(null, error);
+		});
+	}
+
+	function setDefaults (defaults) {
+		regions = defaults['regions'];
+		setRegionsDefaults(defaults['regions']);
+
+		var messages = defaults['messages'];
+		var msgGoalInProgressParts = messages['goal-in-progress'].split(' __MISSING__ ');
+		$('#msg-goal-in-progress-1').val(msgGoalInProgressParts[0]);
+		$('#msg-goal-in-progress-2').val(msgGoalInProgressParts[1]);
+		$('#msg-goal-achieved').val(messages['goal-achieved']);
+		$('#msg-no-cep').val(messages['no-cep']);
+		$('#msg-no-offer').val(messages['no-offer']);
+
+		var styles = defaults['styles'];
+		$('#style-bg-color').val(styles['background-color']);
+		$('#style-bg-color-special').val(styles['completed-background-color']);
+		$('#style-text-color').val(styles['color']);
+		$('#style-text-color-special').val(styles['special-color']);
+		// $('#style-font-size').val(parseInt(styles['font-size']));
+		// $('#style-margin-bottom').val(parseInt(styles['margin-bottom']));
+		// $('#style-padding').val(parseInt(styles['padding']));
+		// $('#style-text-align').val(styles['text-align']);
+
+		$('#preview_initial').html(messages['no-cep']);
+		$('#preview_in_progress .preview_message_progress_p1').html(msgGoalInProgressParts[0]);
+		$('#preview_in_progress .preview_message_progress_p2').html(msgGoalInProgressParts[1]);
+		$('#preview_goal_achieved').html(messages['goal-achieved']);
+
+		$('#previews div').css('background-color', styles['background-color']);
+		$('#preview_goal_achieved').css('background-color', styles['completed-background-color']);
+
+		$('#previews div').css('color', styles['color']);
+		$('#previews div .preview_message_progress_goal').css('color', styles['special-color']);
+		// $('#previews div').css('font-size', styles['font-size']);
+	}
+
+	function setRegionsDefaults (regions) {
+		// start temp conditions for versions reasons only
+
+		if(regions[3] != undefined && regions[3][0] != 'Nordeste'){
+			regions.splice(3, 0, ['Nordeste', null]);
+		}
+
+		if(regions[4] != undefined && regions[4][0] != 'Norte'){
+			regions.splice(4, 0, ['Norte', null]);
+		}
+		// end temp conditions for versions reasons only
+
+		var fixedRegions = ['Sul', 'Sudeste', 'Centro Oeste', 'Nordeste', 'Norte']
+		for(var i=0; i<regions.length; i++){
+			var region = regions[i][0];
+			var minValue = regions[i][1];
+
+			if(minValue){
+				minValue = minValue.toFixed(2).replace('.', '');
+			}
+
+			if(fixedRegions.indexOf(region) == -1){ // not found
+				addRegion();
+				$('input[name="region_set-'+i+'-name"]').val(region);
+				$('input[name="region_set-'+i+'-value"]').val(minValue);
+				var cepRange = regions[i][2][0];
+				$('input[name="region_set-'+i+'-cep-start"]').val(cepRange[0]);
+				$('input[name="region_set-'+i+'-cep-end"]').val(cepRange[1]);
+			} else { // fixed region
+				$('input[name="region_set-'+i+'-value"]').val(minValue);
+			}
+		}
+	}
+
+	function addRegion (){
+		var template = $('#template-custom-region');
+		var container = $('#container-regions');
+		var count = container.children('.tr').length;
+
+		var item = template.html().replace(/__prefix__/g, count);
+
+		container.append(item);
+		return count;
+	}
 
 	function updateCodeResult (){
 		var wfs_config = {
@@ -161,10 +324,14 @@ $(document).ready(function() {
 				'completed-background-color': $('#style-bg-color-special').val(),
 				'color': $('#style-text-color').val(),
 				'special-color': $('#style-text-color-special').val(),
-				'font-size': $('#style-font-size').val() + 'px',
-				'margin-bottom': $('#style-margin-bottom').val() + 'px',
-				'padding': $('#style-padding').val() + 'px',
-				'text-align': $('#style-text-align').val()
+				// 'font-size': $('#style-font-size').val() + 'px',
+				// 'margin-bottom': $('#style-margin-bottom').val() + 'px',
+				// 'padding': $('#style-padding').val() + 'px',
+				// 'text-align': $('#style-text-align').val()
+				'font-size': defaults['styles']['font-size'],
+				'margin-bottom': defaults['styles']['margin-bottom'],
+				'padding': defaults['styles']['padding'],
+				'text-align': defaults['styles']['text-align']
 			},
 			'messages': {
 				'goal-in-progress': $('#msg-in-progress-1').val() + ' __MISSING__ ' + $('#msg-in-progress-2').val(),
@@ -196,16 +363,8 @@ $(document).ready(function() {
 		return decodeURIComponent(results[2].replace(/\+/g, " "));
 	}
 
-	function enableInstallationTab (){
-		$('#link-install').removeClass('disabled');
-	}
-
 	function showPersonalizationTab (){
 		$('#link-personalize').tab('show');
-	}
-
-	function deleteRegion (item){
-		$('#' + item).remove();
 	}
 
 	function scrollPageToBottom (){

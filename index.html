@@ -21,14 +21,18 @@
 		</div>
 	</div>
 
-	<div class="container">
+	<div id="loading">
+		<div class="container">Carregando ...</div>
+	</div>
+
+	<div class="container" style="display:none;">
 
 	<p class="lead">Olá <b id="store-name"></b>!</p>
 	<p>Falta pouco pra você começar a usar a barra de frete grátis em sua loja!<br>Siga atentamente os passos abaixo para configurar corretamente a sua barra:</p>
 
 	<ul class="nav nav-tabs" id="myTab" role="tablist">
 		<li class="nav-item">
-			<a class="nav-link active" data-toggle="tab" href="#download" role="tab">1. Download</a>
+			<a class="nav-link active" data-toggle="tab" href="#download" role="tab" id="link-download">1. Download</a>
 		</li>
 		<li class="nav-item">
 			<a class="nav-link" data-toggle="tab" href="#config" role="tab" id="link-config">2. Configuração</a>
@@ -37,7 +41,7 @@
 			<a class="nav-link" data-toggle="tab" href="#personalization" role="tab" id="link-personalize">3. Personalização</a>
 		</li>
 		<li class="nav-item">
-			<a class="nav-link" data-toggle="tab" href="#install" role="tab" id="link-install">4. Instalação</a>
+			<a class="nav-link" data-toggle="tab" href="#install" role="tab" id="link-install">4. Instalação/Atualização</a>
 		</li>
 	</ul>
 
@@ -171,7 +175,7 @@
 
 			<hr>
 
-			<button type="submit" class="btn btn-primary btn-lg">Salvar alterações</button>
+			<button id="btn-submit" type="submit" class="btn btn-primary btn-lg">Salvar alterações</button>
 
 			</form>
 
@@ -189,32 +193,6 @@
 
 			<form id="form-conf">
 
-			<h3>Mensagens</h3>
-			<p class="lead"></p>
-
-			<div class="row">
-				<div class="col-md-6 form-group">
-					<label>Meta em andamento</label>
-					<div class="input-group">
-						<input class="form-control col-3" type="text" value="Ainda faltam" id="msg-in-progress-1" required>
-						<span id="preview_goal" class="input-group-addon">R$ 100</span>
-						<input class="form-control" type="text" value="em compras pra você GANHAR FRETE GRÁTIS !!!" id="msg-in-progress-2" required>
-					</div>
-				</div>
-				<div class="col-md-6 form-group">
-					<label>Meta alcançada</label>
-					<input class="form-control" type="text" value="Parabéns! Você ganhou FRETE GRÁTIS!!!" id="msg-goal-achieved" required>
-				</div>
-				<div class="col-md-6 form-group">
-					<label>CEP não informado</label>
-					<input class="form-control" type="text" value="Não quer pagar frete? Informe o seu CEP para saber quanto falta!" id="msg-no-cep" required>
-				</div>
-				<div class="col-md-6 form-group">
-					<label>Não há oferta para o CEP</label>
-					<input class="form-control" type="text" value="Não há opção de frete grátis para sua região." id="msg-no-offer" required>
-				</div>
-			</div>
-
 			<h3>Aparência</h3>
 			<p class="lead"></p>
 
@@ -222,34 +200,34 @@
 				<div class="col-md-3 form-group">
 					<label>Cor de fundo</label>
 					<div id="cp-bg" data-format="alias" class="input-group colorpicker-component">
-						<input class="form-control" type="text" value="#8c3488" id="style-bg-color" required>
+						<input class="form-control" type="text" id="style-bg-color" required>
 						<span class="input-group-addon"><i></i></span>
 					</div>
 				</div>
 				<div class="col-md-3 form-group">
 					<label>Cor de fundo (meta alcançada)</label>
 					<div id="cp-bg" data-format="alias" class="input-group colorpicker-component">
-						<input class="form-control" type="text" value="#61c0bd" id="style-bg-color-special" required>
+						<input class="form-control" type="text" id="style-bg-color-special" required>
 						<span class="input-group-addon"><i></i></span>
 					</div>
 				</div>
 				<div class="col-md-3 form-group">
 					<label>Cor do texto</label>
 					<div id="cp-bg" data-format="alias" class="input-group colorpicker-component">
-						<input class="form-control" type="text" value="#FFFFFF" id="style-text-color" required>
+						<input class="form-control" type="text" id="style-text-color" required>
 						<span class="input-group-addon"><i></i></span>
 					</div>
 				</div>
 				<div class="col-md-3 form-group">
 					<label>Cor do texto especial</label>
 					<div id="cp-bg" data-format="alias" class="input-group colorpicker-component">
-						<input class="form-control" type="text" value="#ffabd3" id="style-text-color-special" required>
+						<input class="form-control" type="text" id="style-text-color-special" required>
 						<span class="input-group-addon"><i></i></span>
 					</div>
 				</div>
-				<div class="col-md-3 form-group">
+<!-- 				<div class="col-md-3 form-group">
 					<label>Tamanho da fonte</label>
-					<input class="form-control" type="number" value="20" id="style-font-size" required>
+					<input class="form-control" type="number" id="style-font-size" required>
 				</div>
 				<div class="col-md-3 form-group">
 					<label>Alinhamento do texto</label>
@@ -261,11 +239,39 @@
 				</div>
 				<div class="col-md-3 form-group">
 					<label>Margem inferior</label>
-					<input class="form-control" type="number" value="20" id="style-margin-bottom" required>
+					<input class="form-control" type="number" id="style-margin-bottom" required>
 				</div>
 				<div class="col-md-3 form-group">
 					<label>Espaçamento interno</label>
-					<input class="form-control" type="number" value="15" id="style-padding" required>
+					<input class="form-control" type="number" id="style-padding" required>
+				</div> -->
+			</div>
+
+			<hr>
+
+			<h3>Mensagens</h3>
+			<p class="lead"></p>
+
+			<div class="row">
+				<div class="col-md-6 form-group">
+					<label>Meta em andamento</label>
+					<div class="input-group">
+						<input class="form-control col-3" type="text" id="msg-goal-in-progress-1" required>
+						<span id="preview_goal" class="input-group-addon">R$ 100</span>
+						<input class="form-control" type="text" id="msg-goal-in-progress-2" required>
+					</div>
+				</div>
+				<div class="col-md-6 form-group">
+					<label>Meta alcançada</label>
+					<input class="form-control" type="text" id="msg-goal-achieved" required>
+				</div>
+				<div class="col-md-6 form-group">
+					<label>CEP não informado</label>
+					<input class="form-control" type="text" id="msg-no-cep" required>
+				</div>
+				<div class="col-md-6 form-group">
+					<label>Não há oferta para o CEP</label>
+					<input class="form-control" type="text" id="msg-no-offer" required>
 				</div>
 			</div>
 
@@ -279,67 +285,82 @@
 
 		<div class="tab-pane" id="install" role="tabpanel">
 
-			<h2>Upload do script</h2>
+			<h2>Instalação</h2>
 
 			<ol>
-				<li>No seu painel da Loja Integrada, acesse a área <a href="https://app.lojaintegrada.com.br/painel/plataforma/galeria/upload" target="_blank">Upload de Arquivos</a>;</li>
-				<li>Clique no botão "Escolher arquivo" e selecione o script que você fez o download;</li>
-				<li>Clique no botão "Enviar arquivo" e aguarde alguns segundos até que a Loja Integrada processe o arquivo;</li>
-				<li>Se tudo ocorrer bem, você deve ver a mensagem "Arquivo adicionado com sucesso."</li>
+				<li>
+					<b>Upload do Script</b>
+					<ol>
+						<li>No seu painel da Loja Integrada, acesse a área <a href="https://app.lojaintegrada.com.br/painel/plataforma/galeria/upload" target="_blank">Upload de Arquivos</a>;</li>
+						<li>Clique no botão "Escolher arquivo" e selecione o script que você fez o download;</li>
+						<li>Clique no botão "Enviar arquivo" e aguarde alguns segundos até que a Loja Integrada processe o arquivo;</li>
+						<li>Se tudo ocorrer bem, você deve ver a mensagem "Arquivo adicionado com sucesso."</li>
+					</ol>
+				</li>
+				<li>
+					<b>Upload do Script</b>
+					<ol>
+						<li>No seu painel da Loja Integrada, acesse a área <a href="https://app.lojaintegrada.com.br/painel/configuracao/html/criar" target="_blank">Incluir Código HTML</a>;</li>
+						<li>Caso seja solicitado, confirme que leu o aviso e concordou;</li>
+						<li>Preencha os dados do formulário com os seguintes dados:
+							<ul>
+								<li><b>Descrição:</b> Widget Frete Grátis</li>
+								<li><b>Local publicação:</b> Rodapé</li>
+								<li><b>Página publicação:</b> Página do carrinho</li>
+								<li><b>Tipo:</b> Javascript</li>
+								<li><b>Conteúdo:</b> <a href="#" class="btn-modal-gen-code">clique aqui para copiar o código</a></li>
+							</ul>
+						</li>
+						<li>Clique no botão "Salvar código HTML"</li>
+					</ol>
+				</li>
 			</ol>
 
-			<h2>Incluir código HTML</h2>
+			<h2>Atualização</h2>
 
 			<ol>
 				<li>No seu painel da Loja Integrada, acesse a área <a href="https://app.lojaintegrada.com.br/painel/configuracao/html/criar" target="_blank">Incluir Código HTML</a>;</li>
-				<li>Caso seja solicitado, confirme que leu o aviso e concordou;</li>
-				<li>Preencha os dados do formulário com os seguintes dados:
-					<ul>
-						<li><b>Descrição:</b> Widget Frete Grátis</li>
-						<li><b>Local publicação:</b> Rodapé</li>
-						<li><b>Página publicação:</b> Página do carrinho</li>
-						<li><b>Tipo:</b> Javascript</li>
-						<li><b>Conteúdo:</b> <a href="#" id="btn-modal-gen-code">clique aqui para copiar o código</a></li>
-					</ul>
-				</li>
+				<li>Copie e cole o novo código no campo "Conteúdo" do formulário: <a href="#" class="btn-modal-gen-code">clique aqui para copiar o código</a></li>
 				<li>Clique no botão "Salvar código HTML"</li>
 			</ol>
 
-<!-- 			<hr>
+		</div>
 
-			<button class="btn btn-primary" id="btn-copy-code">Copiar código</button> -->
-
-		</div> <!-- end tab install -->
 
 	</div> <!-- end tabcontent -->
 
 	</div> <!-- end container -->
 
-<!-- Modal -->
-<div class="modal fade" id="modal-gen-code" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Código HTML</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-      	<div id="code-container" class="card card-block bg-faded"></div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" id="btn-copy-code" data-clipboard-target="#code-container" data-title="Copiado!">Copiar e fechar</button>
-      </div>
-    </div>
-  </div>
-</div>
+	<!-- Modal -->
+	<div class="modal fade" id="modal-gen-code" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Código HTML</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div id="code-container" class="card card-block bg-faded"></div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" id="btn-copy-code" data-clipboard-target="#code-container" data-title="Copiado!">Copiar e fechar</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- End Modal -->
 
 	<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+
+	<script type="text/javascript" src="bower_components/jquery-validation/dist/jquery.validate.min.js"></script>
 
 	<script type="text/javascript" src="js/tether.min.js"></script>
 
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+
+	<script type="text/javascript" src="js/jquery.ajax-cross-origin.min.js"></script>
 
 	<script type="text/javascript" src="js/bootstrap-colorpicker.min.js"></script>
 	<script type="text/javascript" src="js/jquery.mask.min.js"></script>
