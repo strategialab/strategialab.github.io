@@ -181,6 +181,7 @@ $(document).ready(function() {
 	});
 
 	$('body').delegate('.btn-delete-region', 'click', function(e) {
+		$(this).closest('.tr').next('hr').remove();
 		$(this).closest('.tr').remove();
 	});
 
