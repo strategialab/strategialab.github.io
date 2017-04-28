@@ -26,8 +26,8 @@ $(document).ready(function() {
 	var storeName = arrToken[0];
 	var scriptUrl = arrToken[1];
 	var liScriptUrl = arrToken[2];
-	var storeDomain = arrToken[3];
-	// var storeDomain = 'www.h2opurificadores.com.br';
+	// var storeDomain = arrToken[3];
+	var storeDomain = 'www.becakery.com.br';
 
 	$('#store-name').html(storeName);
 
@@ -227,7 +227,10 @@ $(document).ready(function() {
 		.done(function(data) {
 			var patt = /var wfs_config = (.*);/
 			var result = patt.exec(data);
-			var config = JSON.parse(result[1]);
+			var config;
+			if(result){
+				config = JSON.parse(result[1]);
+			}
 			callback(config);
 		})
 		.error(function(error){
