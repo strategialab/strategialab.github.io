@@ -26,8 +26,8 @@ $(document).ready(function() {
 	var storeName = arrToken[0];
 	var scriptUrl = arrToken[1];
 	var liScriptUrl = arrToken[2];
-	// var storeDomain = arrToken[3];
-	var storeDomain = 'www.becakery.com.br';
+	var storeDomain = arrToken[3];
+	// var storeDomain = 'www.becakery.com.br';
 
 	$('#store-name').html(storeName);
 
@@ -337,7 +337,7 @@ $(document).ready(function() {
 				'text-align': defaults['styles']['text-align']
 			},
 			'messages': {
-				'goal-in-progress': $('#msg-in-progress-1').val() + ' __MISSING__ ' + $('#msg-in-progress-2').val(),
+				'goal-in-progress': $('#msg-goal-in-progress-1').val() + ' __MISSING__ ' + $('#msg-goal-in-progress-2').val(),
 				'goal-achieved': $('#msg-goal-achieved').val(),
 				'no-cep': $('#msg-no-cep').val(),
 				'no-offer': $('#msg-no-offer').val()
