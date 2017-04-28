@@ -1,9 +1,5 @@
 $(document).ready(function() {
 
-	$('.money').mask("#.##0.00", {reverse: true});
-	$('.cep').mask("00000-000");
-	$('.colorpicker-component').colorpicker();
-
 	var defaults = {
 		'regions': [],
 		'styles': {
@@ -56,9 +52,10 @@ $(document).ready(function() {
 
 	function onLoadedConfig (config, scriptUrl) {
 		if(config){
-			swal('Modo de atualização', "Identificamos que a barra já foi instalada em sua loja; portanto, carregamos as configurações atuais para que você possa atualizá-las, se desejar.", "info");
+			// swal('Modo de atualização', "Identificamos que a barra já foi instalada em sua loja; portanto, carregamos as configurações atuais para que você possa atualizá-las, se desejar.", "info");
 			
 			liScriptUrl = scriptUrl;
+			console.log(liScriptUrl);
 
 			setDefaults(config);
 
@@ -70,52 +67,19 @@ $(document).ready(function() {
 
 			$('#loading').css('display', 'none');
 			$('.container').css('display', 'block');
-
-			$('.money').mask("#.##0.00", {reverse: true});
-			$('.cep').mask("00000-000");
-			$('.colorpicker-component').colorpicker();
+		} else {
+			swal('Barra não instalada', "Não foi possível detectar a barra em sua loja. Se você fez a instalação recentemente, aguarde alguns minutos e tente novamente.", "error");
 		}
 	}
+
+	$('.money').mask("#.##0.00", {reverse: true});
+	$('.cep').mask("00000-000");
+	$('.colorpicker-component').colorpicker();
 
 	var clipboard = new Clipboard('#btn-copy-code');
 	clipboard.on('success', function(e) {
 		$('#modal-gen-code').modal('hide');
 	});
-
-	// var wfs_config = {
-	// 	"status": "online",
-	// 	"regions": [
-	// 		["Sul",1050.00],
-	// 		["Sudeste",299],
-	// 		["Centro Oeste",449.9],
-	// 		["São Paulo - Barueri",149,[["06400001","06499999"]]],
-	// 		["São Paulo - Capital 1",149,[["01000000","05999999"]]],
-	// 		["São Paulo - Capital 2",149,[["08000000","08499999"]]],
-	// 		["São Paulo - Diadema",149,[["09900001","09999999"]]],
-	// 		["São Paulo - Estado",199,[["01000000","19999999"]]],
-	// 		["São Paulo - Guarulhos",149,[["07000001","07399999"]]],
-	// 		["São Paulo - Osasco",149,[["06000001","06299999"]]],
-	// 		["São Paulo - Santana de Parnaíba",149,[["06500001","06549999"]]],
-	// 		["São Paulo - Santo André ",149,[["09000001","09299999"]]],
-	// 		["São Paulo - São Bernado",149,[["09600001","09899999"]]],
-	// 		["São Paulo - São Caetano do Sul",149,[["09500001","09599999"]]]
-	// 	],
-	// 	"styles":{
-	// 		"background-color":"#e05e2a",
-	// 		"completed-background-color":"#228bcc",
-	// 		"color":"#ffffff",
-	// 		"special-color":"#110deb",
-	// 		"font-size":"20px",
-	// 		"margin-bottom":"20px",
-	// 		"padding":"15px",
-	// 		"text-align":"center"
-	// 	},
-	// 	"messages":{
-	// 		"goal-in-progress":"Ainda faltam __MISSING__ em compras pra você GANHAR FRETE GRÁTIS !!!",
-	// 		"goal-achieved":"Parabéns! Você ganhou FRETE GRÁTIS!!!",
-	// 		"no-cep":"Não quer pagar frete? Informe o seu CEP para saber quanto falta!",
-	// 		"no-offer":"Não há opção de frete grátis para sua região."}
-	// 	};
 
 	// Messages
 
@@ -169,6 +133,8 @@ $(document).ready(function() {
 
 	$('#btn-add-region').click(function() {
 		addRegion();
+		$('.money').mask("#.##0.00", {reverse: true});
+		$('.cep').mask("00000-000");
 		scrollPageToBottom();
 	});
 
