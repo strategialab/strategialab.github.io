@@ -1,5 +1,9 @@
 $(document).ready(function() {
 
+	$('.money').mask("#.##0.00", {reverse: true});
+	$('.cep').mask("00000-000");
+	$('.colorpicker-component').colorpicker();
+
 	var defaults = {
 		'regions': [],
 		'styles': {
@@ -72,10 +76,6 @@ $(document).ready(function() {
 			$('.colorpicker-component').colorpicker();
 		}
 	}
-
-	$('.money').mask("#.##0.00", {reverse: true});
-	$('.cep').mask("00000-000");
-	$('.colorpicker-component').colorpicker();
 
 	var clipboard = new Clipboard('#btn-copy-code');
 	clipboard.on('success', function(e) {
