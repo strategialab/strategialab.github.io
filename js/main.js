@@ -48,6 +48,10 @@ $(document).ready(function() {
 		setDefaults(defaults);
 		$('#loading').css('display', 'none');
 		$('.container').css('display', 'block');
+
+		$('.money').mask("#.##0.00", {reverse: true});
+		$('.cep').mask("00000-000");
+		$('.colorpicker-component').colorpicker();
 	}
 
 	function onLoadedConfig (config, scriptUrl) {
@@ -55,7 +59,6 @@ $(document).ready(function() {
 			// swal('Modo de atualização', "Identificamos que a barra já foi instalada em sua loja; portanto, carregamos as configurações atuais para que você possa atualizá-las, se desejar.", "info");
 			
 			liScriptUrl = scriptUrl;
-			console.log(liScriptUrl);
 
 			setDefaults(config);
 
@@ -67,14 +70,14 @@ $(document).ready(function() {
 
 			$('#loading').css('display', 'none');
 			$('.container').css('display', 'block');
+
+			$('.money').mask("#.##0.00", {reverse: true});
+			$('.cep').mask("00000-000");
+			$('.colorpicker-component').colorpicker();
 		} else {
 			swal('Barra não instalada', "Não foi possível detectar a barra em sua loja. Se você fez a instalação recentemente, aguarde alguns minutos e tente novamente.", "error");
 		}
 	}
-
-	$('.money').mask("#.##0.00", {reverse: true});
-	$('.cep').mask("00000-000");
-	$('.colorpicker-component').colorpicker();
 
 	var clipboard = new Clipboard('#btn-copy-code');
 	clipboard.on('success', function(e) {
@@ -272,7 +275,7 @@ $(document).ready(function() {
 			var minValue = regions[i][1];
 
 			if(minValue){
-				minValue = minValue.toFixed(2).replace('.', '');
+				minValue = minValue.toFixed(2);
 			}
 
 			if(fixedRegions.indexOf(region) == -1){ // not found
