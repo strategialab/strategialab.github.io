@@ -46,6 +46,8 @@ $(document).ready(function() {
 		liScriptUrl = 'https://cdn.awsli.com.br/' + storeId.substr(0, 2) + '/' + storeId + '/arquivos/' + filename;
 		
 		setDefaults(defaults);
+		$('#loading').css('display', 'none');
+		$('.container').css('display', 'block');
 	}
 
 	function onLoadedConfig (config, scriptUrl) {
@@ -55,7 +57,7 @@ $(document).ready(function() {
 			liScriptUrl = scriptUrl;
 
 			setDefaults(config);
-			
+
 			$('#link-download').addClass('disabled');
 			$('#link-download').removeClass('active');
 			$('#download').removeClass('active');
@@ -70,6 +72,10 @@ $(document).ready(function() {
 			$('.colorpicker-component').colorpicker();
 		}
 	}
+
+	$('.money').mask("#.##0.00", {reverse: true});
+	$('.cep').mask("00000-000");
+	$('.colorpicker-component').colorpicker();
 
 	var clipboard = new Clipboard('#btn-copy-code');
 	clipboard.on('success', function(e) {
