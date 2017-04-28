@@ -230,8 +230,9 @@ $(document).ready(function() {
 			var config;
 			if(result){
 				config = JSON.parse(result[1]);
+			} else {
+				callback(config);
 			}
-			callback(config);
 		})
 		.error(function(error){
 			callback(null, error);
