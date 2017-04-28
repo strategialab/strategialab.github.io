@@ -22,42 +22,59 @@ $(document).ready(function() {
 
 	var regions = [];
 	var token = Base64.decode(getParam('t'));
+	if(!token){
+		swal('Acesso negado', 'Não foi possível identificar a sua loja. Verifique se está usando a URL com os parâmetros corretos.', 'error');
+		return;
+	}
 	var arrToken = token.split('|');
-	var storeName = arrToken[0];
-	var scriptUrl = arrToken[1];
-	var liScriptUrl = arrToken[2];
-	var storeDomain = arrToken[3];
-	// var storeDomain = 'www.becakery.com.br';
+	var action = arrToken[0];
+	var storeName = arrToken[1];
+	var storeDomain = arrToken[2];
+	var storeId;
+	var filename;
+	var downloadUrl;
+	var liScriptUrl;
 
 	$('#store-name').html(storeName);
 
-	getInstalledConfig(onLoadedConfig);
+	if(action == 'update'){
+		getInstalledConfig(onLoadedConfig);
+	} else {
+		storeId = arrToken[3];
+		filename = arrToken[4];
+		downloadUrl = arrToken[5];
+		liScriptUrl = 'https://cdn.awsli.com.br/' + storeId.substr(0, 2) + '/' + storeId + '/arquivos/' + filename;
+		
+		setDefaults(defaults);
+	}
 
-	function onLoadedConfig (config) {
+	function onLoadedConfig (config, scriptUrl) {
 		if(config){
 			swal('Modo de atualização', "Identificamos que a barra já foi instalada em sua loja; portanto, carregamos as configurações atuais para que você possa atualizá-las, se desejar.", "info");
+			
+			liScriptUrl = scriptUrl;
+
 			setDefaults(config);
+			
 			$('#link-download').addClass('disabled');
 			$('#link-download').removeClass('active');
 			$('#download').removeClass('active');
 			$('#link-config').addClass('active');
 			$('#config').addClass('active');
-		} else {
-			setDefaults(defaults);
+
+			$('#loading').css('display', 'none');
+			$('.container').css('display', 'block');
+
+			$('.money').mask("#.##0.00", {reverse: true});
+			$('.cep').mask("00000-000");
+			$('.colorpicker-component').colorpicker();
 		}
-
-		$('#loading').css('display', 'none');
-		$('.container').css('display', 'block');
-
-		$('.money').mask("#.##0.00", {reverse: true});
-		$('.cep').mask("00000-000");
-		$('.colorpicker-component').colorpicker();
-
-		var clipboard = new Clipboard('#btn-copy-code');
-		clipboard.on('success', function(e) {
-			$('#modal-gen-code').modal('hide');
-		});
 	}
+
+	var clipboard = new Clipboard('#btn-copy-code');
+	clipboard.on('success', function(e) {
+		$('#modal-gen-code').modal('hide');
+	});
 
 	// var wfs_config = {
 	// 	"status": "online",
@@ -133,28 +150,9 @@ $(document).ready(function() {
 		$('#preview_in_progress .preview_message_progress_goal').css('color', $(this).val());
 	});
 
-	// $('#style-font-size').on('change', function(e){
-	// 	var size = $(this).val() + 'px';
-	// 	$('#preview_initial').css('font-size', size);
-	// 	$('#preview_in_progress').css('font-size', size);
-	// 	$('#preview_goal_achieved').css('font-size', size);
-	// });
-
-	// $('#style-text-align').on('change', function(e){
-	// 	$('#preview_initial').css('text-align', $(this).val());
-	// 	$('#preview_in_progress').css('text-align', $(this).val());
-	// 	$('#preview_goal_achieved').css('text-align', $(this).val());
-	// });
-
-	// $('#style-padding').on('change', function(e){
-	// 	$('#preview_initial').css('padding', $(this).val());
-	// 	$('#preview_in_progress').css('padding', $(this).val());
-	// 	$('#preview_goal_achieved').css('padding', $(this).val());
-	// });
-
 	$('#btn-download').on('click', function() {
 		var iframe = document.getElementById('invisible');
-		iframe.src = scriptUrl;
+		iframe.src = downloadUrl;
 		$('#link-config').tab('show');
 	});
 
@@ -222,20 +220,30 @@ $(document).ready(function() {
 
 	function getInstalledConfig (callback) {
 		$.ajax({
+			crossDomain: true,
+			cache: false,
 			url: 'https://' + storeDomain + '/carrinho/index'
 		})
 		.done(function(data) {
+			var config;
+			var scriptUrl;
+
+			var patt = /"(https:\/\/cdn\.awsli\.com\.br\/(.*)\/wfs-(.*))"/
+			var result = patt.exec(data);
+			if(result){
+				scriptUrl = result[1];
+			}
+
 			var patt = /var wfs_config = (.*);/
 			var result = patt.exec(data);
-			var config;
 			if(result){
 				config = JSON.parse(result[1]);
-			} else {
-				callback(config);
 			}
+			
+			callback(config, scriptUrl);
 		})
-		.error(function(error){
-			callback(null, error);
+		.fail(function(error){
+			callback(null, null, error);
 		});
 	}
 
