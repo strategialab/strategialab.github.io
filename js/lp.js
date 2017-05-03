@@ -6,8 +6,8 @@ $(document).ready(function() {
 	updateMessages();
 
 	$('.launch-modal').on('click', function(e){
-	    e.preventDefault();
-	    $( '#' + $(this).data('modal-id') ).modal();
+		e.preventDefault();
+		$( '#' + $(this).data('modal-id') ).modal();
 	});
 
 	$("#modal-video").on("hidden.bs.modal", function () {
@@ -48,7 +48,7 @@ $(document).ready(function() {
 			currentIndex++;
 			updateMessages();
 
-		}, 500);
+		}, 1000);
 
 	}
 
