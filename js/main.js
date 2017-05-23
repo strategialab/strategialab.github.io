@@ -283,9 +283,11 @@ $(document).ready(function() {
 				addRegion();
 				$('input[name="region_set-'+i+'-name"]').val(region);
 				$('input[name="region_set-'+i+'-value"]').val(minValue);
-				var cepRange = regions[i][2][0];
-				$('input[name="region_set-'+i+'-cep-start"]').val(cepRange[0]);
-				$('input[name="region_set-'+i+'-cep-end"]').val(cepRange[1]);
+				if (regions[i][2] !== undefined) {
+					var cepRange = regions[i][2][0];
+					$('input[name="region_set-'+i+'-cep-start"]').val(cepRange[0]);
+					$('input[name="region_set-'+i+'-cep-end"]').val(cepRange[1]);
+				}
 			} else { // fixed region
 				$('input[name="region_set-'+i+'-value"]').val(minValue);
 			}
